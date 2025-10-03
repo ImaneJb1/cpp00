@@ -1,7 +1,7 @@
 CPP= c++
 NAME= phonebook
 CPPFLAGS= -Wall -Wextra -Werror -std=c++98
-SRC= phonebook.cpp parse_input.cpp
+SRC=  PhoneBook.cpp parse_input.cpp contact.cpp
 OBJ= $(SRC:.cpp=.o)
 
 all: $(NAME) clean

@@ -7,10 +7,8 @@ class PhoneBook
 	private:
 		Contact arr[8];
 	public:
-		void	add_contact(int index);
+		int	add_contact(int index);
 		void	display_contact(int index);
-
-		
-}
+};
 
 #endif

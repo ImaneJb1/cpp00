@@ -1,33 +1,63 @@
 #include "PhoneBook.hpp"
+#include "string"
 
-void	PhoneBook::add_contact(int index)
+int	parse_phone_number(std::string input)
+{
+	int start = 0;
+	int failure = 0;
+
+	if(input[0] == '0')
+	{
+		if(input.length() != 10){failure = 1;}
+	}
+	else if(input[0] == '+')
+	{
+		start = 1;
+		if(input.length() != 13){failure = 1;}
+	}
+	else{failure = 1;}
+	
+	for(size_t i = start; i < input.size(); i++)
+		if(!isdigit(input[i])){failure = 1;}
+	if(failure == 1)
+	{
+		std::cout << "\033[31mFAILED: Please enter a valid phone number.\033[31m\n";
+		return(0);
+	}
+	return(1);
+}
+
+int	PhoneBook::add_contact(int index)
 {
 	std::string name;
 	std::string phone_number;
+	Contact contact;
 
 	if(index == 8)
 		index = 0;
 
 	std::cout << "First name: ";
 	std::cin >> name;
-	arr[index].set_first_name(name);
+	contact.set_first_name(name);
 
 	std::cout << "Last name: ";
 	std::cin >> name;	
-	arr[index].set_last_name(name);
+	contact.set_last_name(name);
 
 	std::cout << "nickname: ";
 	std::cin >> name;
-	arr[index].set_nickname(name);
+	contact.set_nickname(name);
 
 	std::cout << "Phone number: ";
 	std::cin >> phone_number;
-	//parse phone number
-	arr[index].set_phone_number(name);
+	if(!parse_phone_number(phone_number)){return(0);}
+	contact.set_phone_number(name);
 
 	std::cout << "Darket secret: ";
 	std::cin >> name;
-	arr[index].set_dark_sec(name);
+	contact.set_dark_sec(name);
+	arr[index] = contact;
+	return(1);
 }
 
 void	PhoneBook::display_contact(int index)
@@ -45,33 +75,54 @@ void	PhoneBook::display_contact(int index)
 	std::cout << "\033[36m----------+----------+----------+----------+\033[0m\n";
 }
 
+int	parse_index(int i)
+{
+	return(i <= 8 && i >= 0);
+}
+
 int main()
 {
 	PhoneBook phonebook;
-	int index;
+	int index = 0;
 	std::string input;
-	
 	
 	while(1)
 	{
-		std::cout << "\033[33menter one of the commands : ADD, SEARCH, EXIT\033[0m\n";
+		int flag = 0;	
+		std::cout << "\033[33mPlease enter one of the commands : ADD, SEARCH, EXIT\033[0m\n";
 		std::cout << "PhoneBook>> ";
 		getline(std::cin, input);
+		
 		if(input == "ADD")
 		{
-			phonebook.add_contact(index);
+			flag = 1;
+			if(!phonebook.add_contact(index))
+				continue;
 			index++;
 		}
 		else if(input == "SEARCH")
 		{
+			flag = 1;
 			int i;
 			std::cout << "Enter a number: ";
 			std::cin >> i;
-			//PARSE INDEX
+			if(!parse_index(i))
+			{
+				std::cout << "\033[31mData not found. Please enter a valid index.\033[31m\n";
+				continue;
+			}q
 			phonebook.display_contact(i);
 		}
+		else if(input == "EXIT")
+			break;
+		else if(flag == 0)
+		{	
+			std::cout << '{' + input + '}'<<"\033[31mCommand not found\033[31\n";
+		}
+		std::cout << "FFFFFFFFFFFFFFFFF"<<'[' + flag + ']' << std::endl;
 	}
 	// PhoneBook.add_contact(arr, i);
 	return 0;
 }
+
 
