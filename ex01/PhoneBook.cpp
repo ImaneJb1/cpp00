@@ -39,7 +39,7 @@ int	PhoneBook::add_contact(int index)
 	std::cout << "First name: ";
 	getline(std::cin, name);
 	if(name.empty())
-	{std::cout << "\033[31mThis box can't be empty\033[31m\n";
+	{std::cout << "\033[31mThis box can't be empty\033[31m\n"; //KHSNI NDIR LOOP KAT3AWED T3TI FIRST NAME
 		return(0);}
 	contact.set_first_name(name);
 
@@ -58,7 +58,7 @@ int	PhoneBook::add_contact(int index)
 	contact.set_nickname(name);
 
 	std::cout << "Phone number: ";
-	getline(std::cin, name);
+	getline(std::cin, phone_number);
 	if(!parse_phone_number(phone_number)){return(0);}
 	contact.set_phone_number(name);
 
