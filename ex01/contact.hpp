@@ -2,6 +2,7 @@
 #define CONTACT_HPP
 #include <iostream>
 #include <iomanip>
+#include "string"
 class Contact
 {
 	private:
@@ -23,6 +24,6 @@ class Contact
 		std::string get_dark_sec(void);
 		std::string get_phone_number(void);
 };
-
+std::string	loop_index(std::string input);
 std::string	input_length(std::string input);
 #endif
