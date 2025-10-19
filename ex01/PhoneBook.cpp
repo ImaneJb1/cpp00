@@ -13,7 +13,7 @@ int	parse_phone_number(std::string input)
 	else if(input[0] == '+')
 	{
 		start = 1;
-		if(input.length() != 13){failure = 1;}
+		if(input.length() > 13 || input.length() < 8){failure = 1;}
 	}
 	else{failure = 1;}
 	for(size_t i = start; i < input.size(); i++)
@@ -26,20 +26,20 @@ int	parse_phone_number(std::string input)
 	return(1);
 }
 
-int	PhoneBook::add_contact(int index)
+int	PhoneBook::add_contact(int *index)
 {
 	std::string name;
 	std::string phone_number;
 	Contact contact;
 
-	if(index == 8)
-		index = 0;
+	if(*index == 8)
+		*index = 0;
 	contact.set_first_name(get_input_loop("First name: "));
 	contact.set_last_name(get_input_loop("Last name: "));
 	contact.set_nickname(get_input_loop("Nickname: "));
 	contact.set_phone_number(get_input_loop("Phone number: "));
 	contact.set_dark_sec(get_input_loop("Darket secret: "));
-	arr[index] = contact;
+	arr[*index] = contact;
 	std::cout << "\033[32mContact added successfully!\033[32m" << '\n';
 	return(1);
 }
@@ -50,16 +50,19 @@ int	PhoneBook::display_contacts(void)
 	
 	std::cout << "\033[36m|  Index  |First Name| Last Name| Nickname |\033[0m\n";
 	std::cout << "\033[36m----------+----------+----------+----------+\033[0m\n";
-	while(!arr[index].get_first_name().empty())
+	while(index < 8)
 	{
-		arr[index].set_first_name(input_length(arr[index].get_first_name()));
-		arr[index].set_last_name(input_length(arr[index].get_last_name()));
-		arr[index].set_nickname(input_length(arr[index].get_nickname()));
-		std::cout << "\033[36m|\033[0m" << std::setw(9) << index << "\033[36m|\033[0m";
-		std::cout << std::setw(10) << arr[index].get_first_name() << "\033[36m|\033[0m";
-		std::cout << std::setw(10)<< arr[index].get_last_name() << "\033[36m|\033[0m";
-		std::cout << std::setw(10) << arr[index].get_nickname() << "\033[36m|\033[0m\n";
-		std::cout << "\033[36m----------+----------+----------+----------+\033[0m\n";
+		if (!arr[index].get_first_name().empty())
+		{
+			arr[index].set_first_name(input_length(arr[index].get_first_name()));
+			arr[index].set_last_name(input_length(arr[index].get_last_name()));
+			arr[index].set_nickname(input_length(arr[index].get_nickname()));
+			std::cout << "\033[36m|\033[0m" << std::setw(9) << index << "\033[36m|\033[0m";
+			std::cout << std::setw(10) << arr[index].get_first_name() << "\033[36m|\033[0m";
+			std::cout << std::setw(10)<< arr[index].get_last_name() << "\033[36m|\033[0m";
+			std::cout << std::setw(10) << arr[index].get_nickname() << "\033[36m|\033[0m\n";
+			std::cout << "\033[36m----------+----------+----------+----------+\033[0m\n";
+		}
 		index++;
 	}
 	return(1);
@@ -84,7 +87,7 @@ int main()
 		
 		if(input == "ADD")
 		{
-			if(!phonebook.add_contact(index))
+			if(!phonebook.add_contact(&index))
 				continue;
 			index++;
 		}
